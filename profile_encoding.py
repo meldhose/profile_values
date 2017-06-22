@@ -1,134 +1,108 @@
-"""profile_encoding.py"""
-
-"""This script contains the methods to perform the analysis on the encoding style of the data frame."""
+"""Analysing the encoding styles"""
 
 import pandas as pd
-import operator
-from IPython.display import display, HTML
 
 
 def encoding_analysis(df_column):
     """
-        Checks the encoding style of the strings and returns if there are any strings
-        with unusual characters.
+        Checks the encoding style of the strings and
         Args:
-            dataframe (pandas dataframe): Input pandas dataframe
+            df_column (pandas DataFrame): Input pandas DataFrame
         Returns:
             dict (dict)
-        Examples:
-            >>> dict = encoding_analysis(dataframe)
-            >>> dict['containsUnusualCharacters']
-            True
-            >>> dict['stringsWithUnusualCharacters']
-            >>> dict['unusualStrings']
-
     """
-    dict = {}
-    print('FULL ANALYSIS' + '\n' + '----------------------------------' + '\n')
+    dict_encoding_analysis = {}
     contains_unusual_char = info_compatible_encoding(df_column)
     if contains_unusual_char:
-        df1, df2 = info_list_unusal_chars(contains_unusual_char, df_column)
-        print('The strings that contain the unusual characters are:')
-        display(df1)
-        print('The strings with the indicated unusual characters are:')
-        display(df2)
+        df1, df2 = info_list_unusual_chars(contains_unusual_char, df_column)
     # Storing the return values in dictionary
-    dict['containsUnusualCharacters'] = contains_unusual_char
-    dict['unusualStrings'] = df1
-    dict['stringsWithUnusualCharacters'] = df2
-    return dict
+    dict_encoding_analysis['contains_unusual_chars'] = contains_unusual_char
+    dict_encoding_analysis['unusual_strings'] = df1
+    dict_encoding_analysis['strings_with_unusual_chars'] = df2
+    return dict_encoding_analysis
 
 
 def info_compatible_encoding(df_column):
     """
-        Returns if the given data frame has strings that contain unusual characters.
+        Returns if the given data frame has strings that
+        contain unusual characters.
         Args:
-            dataframe (pandas dataframe): Input pandas dataframe
+            df_column (pandas DataFrame): Input pandas DataFrame
         Returns:
             contains_unusual_char (bool)
-        Examples:
-            >>> info_compatible_encoding(dataframe)
-            True
     """
     col_title = df_column.columns.get_values()[0]
     contains_unusual_char = False
-    dataFrame = df_column
-    for index, row in dataFrame.iterrows():
-        curr_attr = row[col_title]
+    data_frame = df_column
+    for each in data_frame.iterrows():
+        curr_attr = each[1][col_title]
         try:
             curr_attr.encode('ascii')
-        except ValueError as error:
+        except ValueError:
             contains_unusual_char = True
             break
             #             if "\\x" in ascii(curr_attr):
             #                 contains_unusual_char = True
-    if contains_unusual_char:
-        print('The data frame contains unusual characters')
-        results.append('Unusual characters present: Yes\n')
-    else:
-        print('The data frame does not contain unusual characters')
-        results.append('Unusual characters present: No\n')
     return contains_unusual_char
 
 
-def info_list_unusal_chars(contains_unusual_char, df_column):
+def info_list_unusual_chars(contains_unusual_char, df_column):
     """
         Returns 2 lists of strings with unusual characters and strings along
         with indicated unusual characters.
         Args:
             contains_unusual_char(bool): Input bool
-            dataframe (pandas dataframe): Input pandas dataframe
+            df_column (pandas DataFrame): Input pandas DataFrame
         Returns:
-            (df1,df2) (tuple of pandas dataframes)
+            df1,df2 (tuple of pandas DataFrames)
     """
-    dataFrame = df_column
+    data_frame = df_column
     col_title = df_column.columns.get_values()[0]
     non_ascii_str = []
-    non_ascii_char = []
     list_str_chr = []
-    columns = ['String', 'Character']
-    data_frame_curr = pd.DataFrame(columns=columns)
     if contains_unusual_char:
-        for index, row in dataFrame.iterrows():
+        for each in data_frame.iterrows():
             non_ascii_char_string = ''
-            curr_attr = row[col_title]
+            curr_attr = each[1][col_title]
             try:
                 curr_attr.encode('ascii')
             except:
                 for letter in curr_attr:
                     if ord(letter) < 32 or ord(letter) > 126:
                         non_ascii_str += [curr_attr]
-                        non_ascii_char += [letter]
                         if non_ascii_char_string == '':
                             non_ascii_char_string = letter
                         else:
-                            non_ascii_char_string = non_ascii_char_string + ' , ' + letter
+                            non_ascii_char_string = non_ascii_char_string + \
+                                                    ' , ' + letter
                 list_str_chr.append([curr_attr, non_ascii_char_string])
         df1 = print_unusual_str(non_ascii_str)
         df2 = print_mapping_unusual(list_str_chr)
-        return (df1, df2)
+        return df1, df2
 
 
-def print_unusual_str(list):
+def print_unusual_str(list_unusual_strings):
     """
-        Returns a dataframe of strings that contain unusual characters.
+        Returns a DataFrame of strings that contain unusual characters.
         Args:
-            list (list): Input list
+            list_unusual_strings (list): Input list
         Returns:
-            unusualStringsDataFrame (pandas dataframe)
+            unusualStringsDataFrame (pandas DataFrame)
     """
-    unusualStringsDataFrame = pd.DataFrame(list, columns=['String'])
-    return unusualStringsDataFrame
+    unusual_strings_data_frame = pd.DataFrame(list_unusual_strings,
+                                              columns=['String'])
+    return unusual_strings_data_frame
 
 
-def print_mapping_unusual(list):
+def print_mapping_unusual(list_unusual_mapping):
     """
-        Returns a dataframe with 2 columns of strings and the
+        Returns a DataFrame with 2 columns of strings and the
         unusual characters in each.
         Args:
-            list (list): Input list
+            list_unusual_mapping (list): Input list
         Returns:
-            stringsWithUnusualChar (pandas dataframe)
+            stringsWithUnusualChar (pandas DataFrame)
     """
-    stringsWithUnusualChar = pd.DataFrame(list, columns=['String', 'Unusual Character'])
-    return stringsWithUnusualChar
+    strings_with_unusual_char = pd.DataFrame(list_unusual_mapping,
+                        columns=['String', 'Unusual Character'])
+    return strings_with_unusual_char
