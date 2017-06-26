@@ -11,7 +11,7 @@ def analyse_strings(data_frame):
         Args:
             data_frame (pandas DataFrame): Input pandas DataFrame
         Returns:
-            clusters (dict)
+            dict_string_analysis (dict)
     """
     dict_string_analysis = {}
     df_no_duplicates = remove_duplicates(data_frame)
