@@ -13,8 +13,11 @@ def analyse_strings(data_frame):
         Returns:
             clusters (dict)
     """
+    dict_string_analysis = {}
     df_no_duplicates = remove_duplicates(data_frame)
-    return cluster_strings(df_no_duplicates)
+    dict_string_analysis['unique_values'] = df_no_duplicates
+    dict_string_analysis['cluster_values'] = cluster_strings(df_no_duplicates)
+    return dict_string_analysis
 
 
 def remove_duplicates(data_frame):
