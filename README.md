@@ -57,7 +57,7 @@ We are profiling data values on the below four aspects, namely:
 
 2. Now run the command:
 
-   ```>>> encoding_analysis = encoding_analysis(data_frame)```
+   ```>>> encoding_analysis = pv.encoding_analysis(data_frame)```
   
    This will contain results of the encoding analysis done on the data values.
  
@@ -89,7 +89,7 @@ We are profiling data values on the below four aspects, namely:
 
 2. Now run the command:
 
-   ```>>> na = numerical_analysis(data_frame)```
+   ```>>> na = pv.numerical_analysis(data_frame)```
 
 3. The below command lets us know whether the values are of data type numerical or not
  
@@ -117,7 +117,7 @@ We are profiling data values on the below four aspects, namely:
    
 2. Now run the command:
 
-   ```>>> histogram = histogram_value_lengths(data_frame)```
+   ```>>> histogram = pv.histogram_value_lengths(data_frame)```
    
    This returns histogram on length of data values.
    
@@ -133,7 +133,7 @@ We are profiling data values on the below four aspects, namely:
    
 2. Now run the command:
 
-   ```>>> sa = analyse_strings(data_frame)```
+   ```>>> sa = pv.analyse_strings(data_frame)```
    
    sa will contain results of the string analysis done on the data values.
    
