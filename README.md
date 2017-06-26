@@ -39,13 +39,13 @@ To use this package, import it by running the following python command:
 We are profiling data values on the below four aspects, namely:
 
 1. Detect any potential encoding issues with the data values
-2. Analysis on numerical values
-  a. Detect if all values are of numerical data type or a hybrid of numerical and other types
-  b. Data profiling on the list of numerical values
-3. Analysis on the lengths of the data values using histogram
-4. Analysis on the string values
-  a. Find the unique values in the list
-  b. Cluster the list of values
+2. Analyse numeric values
+	a. Detect if all values are of numerical data type or a hybrid of numerical and other types
+  	b. Data profiling on the list of numerical values
+3. Analyse the lengths of the data values using histogram
+4. Analyse the string values
+ 	 a. Find the unique values in the list
+ 	 b. Cluster the list of values
 
 ### Detect any potential encoding issues ###
 
